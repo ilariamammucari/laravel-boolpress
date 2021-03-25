@@ -10,12 +10,21 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
                 <ul class="navbar-nav mr-auto">
-                    <li>LogoSito</li>
+                    @if (!Auth::user())
+                    <li>
+                        <a href="{{ route('guest.home') }}">Home</a>
+                    </li>
+                    @endif
                     {{-- @if (Auth::user())
                     <li class="pl-2">
                         <a href="#">Brani</a>
                     </li>
                     @endif --}}
+                    @if (!Auth::user())
+                    <li class="pl-2">
+                        <a href="{{ route('guest.posts.index') }}">Posts</a>
+                    </li>
+                    @endif
                 </ul>
 
                 <!-- Right Side Of Navbar -->

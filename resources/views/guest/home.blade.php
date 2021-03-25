@@ -16,3 +16,9 @@
     </div>
 @endif
 @endsection
+
+@section('content')
+<div class="container text-center">
+    HOME PAGE GUEST
+</div>
+@endsection

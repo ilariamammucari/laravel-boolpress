@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index')->name('guest.home');
+Route::get('/posts', 'PostController@index')->name('guest.posts.index');
+Route::get('/posts/{slug}', 'PostController@show')->name('guest.posts.show');
 Auth::routes();
 Route::prefix('admin')
     ->namespace('Admin')
