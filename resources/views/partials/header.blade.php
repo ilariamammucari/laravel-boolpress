@@ -12,17 +12,15 @@
                 <ul class="navbar-nav mr-auto">
                     @if (!Auth::user())
                     <li>
-                        <a href="{{ route('guest.home') }}">Home</a>
+                        <a class="text-muted" href="{{ route('guest.home') }}">Home</a>
+                    </li>
+                    <li class="pl-2">
+                        <a class="text-muted" href="{{ route('guest.posts.index') }}">Posts</a>
                     </li>
                     @endif
-                    {{-- @if (Auth::user())
-                    <li class="pl-2">
-                        <a href="#">Brani</a>
-                    </li>
-                    @endif --}}
-                    @if (!Auth::user())
-                    <li class="pl-2">
-                        <a href="{{ route('guest.posts.index') }}">Posts</a>
+                    @if (Auth::user())
+                    <li>
+                        <a class="text-muted" href="{{ route('admin.home') }}">Home</a>
                     </li>
                     @endif
                 </ul>
