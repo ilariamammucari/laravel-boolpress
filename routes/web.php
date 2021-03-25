@@ -13,14 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController@index')->name('index');
-
+Route::get('/', 'HomeController@index')->name('guest.home');
 Auth::routes();
-
 Route::prefix('admin')
-        ->namespace('Admin')
-        ->middleware('auth')
-        ->group(function () {
-            Route::get('/', 'HomeController@index')->name('admin.home');
-        });
+    ->namespace('Admin')
+    ->middleware('auth')
+    ->group(function () {
+        Route::get('/', 'HomeController@index')->name('admin.home');
+    });
 

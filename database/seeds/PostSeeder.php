@@ -4,6 +4,8 @@ use App\Post;
 use Illuminate\Database\Seeder;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
+use PHPUnit\Framework\Constraint\Count;
+use App\User;
 
 class PostSeeder extends Seeder
 {
@@ -18,7 +20,21 @@ class PostSeeder extends Seeder
             $newPost = new Post();
             $newPost->titolo = $faker->lexify();
             $newPost->content = $faker->text();
-            $newPost->slug = Str::slug($newPost->titolo);
+
+            $slug = Str::slug($newPost->titolo);
+            $slugAppoggio = $slug;
+            $postPresente = Post::where('slug', $slug)->first();
+            $contatore = 1;
+            while ( $postPresente ) {
+                $slug = $slugAppoggio . '-' . $contatore;
+                $postPresente = Post::where('slug', $slug)->first();
+                $contatore++;
+            }
+            $newPost->slug = $slug;
+
+            $userCount = Count(User::all()->toArray());
+            $newPost->user_id = rand(1, $userCount); //da migliorare
+
             $newPost->save();
         }
     }
