@@ -25,6 +25,14 @@
             <label for="inputContent">Descrizione</label>
             <input value="{{ $post->content }}" name="content" type="text" class="form-control" id="inputContent">
         </div>
+        @foreach ($tags as $tag)
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="{{ $tag->id }}" id="flexCheckDefault" name="tags[]" {{ $post->tags->contains($tag->id) ? 'checked' : '' }}>
+            <label class="form-check-label" for="flexCheckDefault">
+                {{ $tag->name }}
+            </label>
+        </div>
+        @endforeach
         <button type="submit" class="btn btn-primary">Salva</button>
     </form>
     </div>

@@ -8,6 +8,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -32,7 +33,11 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $tags = Tag::all();
+        $data = [
+            'tags' => $tags
+        ];
+        return view('admin.posts.create',  $data);
     }
 
     /**
@@ -47,12 +52,15 @@ class PostController extends Controller
             'titolo' => ['required',Rule::unique('posts')->ignore($post),'max:100'],
             'content' => 'required'
             ]);
-            $id_admin = Auth::id();
-            $post->user_id = $id_admin;
+            $post->user_id = Auth::id();
             $post->slug = Str::slug($data['titolo']);
             $post->fill($data);
             $post->save();
-
+            
+            if($request->has('tags')){
+                $post->tags()->sync($request['tags']);
+            }
+        
             return redirect()->route('post.index');
     }
 
@@ -62,8 +70,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show(Post $post, $slug)
     {
+        // $post = Post::where('slug', $slug);
         if($post){
             $data = [
                 'post' => $post
@@ -81,9 +90,11 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $tags = Tag::all();
         if($post){
             $data = [
-                'post' => $post
+                'post' => $post,
+                'tags' => $tags 
             ];
             return view('admin.posts.edit', $data);
         }
@@ -103,7 +114,12 @@ class PostController extends Controller
             'titolo' => ['required',Rule::unique('posts')->ignore($post),'max:100'],
             'content' => 'required'
             ]);
+
+        if($request->has('tags')){
+            $post->tags()->sync($request['tags']);
+        }
         $post->update($data);
+
         return redirect()->route('post.index');
     }
 
@@ -115,6 +131,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $post->tags()->sync([]);
         $post->delete();
         return redirect()->route('post.index');
     }
