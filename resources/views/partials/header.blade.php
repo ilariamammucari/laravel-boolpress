@@ -20,7 +20,10 @@
                     @endif
                     @if (Auth::user())
                     <li>
-                        <a class="text-muted" href="{{ route('admin.home') }}">Home</a>
+                        <a class="text-muted" href="{{ route('admin.home') }}">Dashboard</a>
+                    </li>
+                    <li class="pl-3">
+                        <a class="text-muted" href="{{ route('post.index') }}">Post</a>
                     </li>
                     @endif
                 </ul>
