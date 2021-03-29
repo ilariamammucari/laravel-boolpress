@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Tag;
+use Illuminate\Support\Facades\Storage;
+
 
 class PostController extends Controller
 {
@@ -50,10 +52,12 @@ class PostController extends Controller
     {
         $data = $request->validate([
             'titolo' => ['required',Rule::unique('posts')->ignore($post),'max:100'],
-            'content' => 'required'
+            'content' => 'required',
+            'immagine' => 'min:1|max:2048'
             ]);
+            $data['img'] = Storage::put('post_img', $data['immagine']);
             $post->user_id = Auth::id();
-            $post->slug = Str::slug($data['titolo']);
+            $data['slug'] = Str::slug($data['titolo']);
             $post->fill($data);
             $post->save();
             
@@ -112,14 +116,23 @@ class PostController extends Controller
     {
         $data = $request->validate([
             'titolo' => ['required',Rule::unique('posts')->ignore($post),'max:100'],
-            'content' => 'required'
+            'content' => 'required',
+            'immagine' => 'min:1|max:2048'
             ]);
 
         if($request->has('tags')){
             $post->tags()->sync($request['tags']);
         }
-        $post->update($data);
 
+        if( $data['titolo'] != $post->titolo ){
+            $data['slug'] = Str::slug($data['titolo']);
+        }
+
+        if( $request->has('immagine') ) {
+            $data['img'] = Storage::put('post_img', $data['immagine']);
+        }
+
+        $post->update($data);
         return redirect()->route('post.index');
     }
 

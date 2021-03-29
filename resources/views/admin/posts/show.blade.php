@@ -7,6 +7,7 @@
             <div class="card-header">
                 {{ $post->titolo }}
             </div>
+            <img style="width:200px;" src="{{ asset('storage/' . $post->img) }}" alt="{{ $post->titolo }}">
             <div class="card-body">
                 <blockquote class="blockquote mb-0">
                     <p>{{  $post->content }}</p>

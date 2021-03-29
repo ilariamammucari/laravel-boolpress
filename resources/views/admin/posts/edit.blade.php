@@ -14,12 +14,21 @@
     @endif
     
     
-    <form method="POST" action="{{ route('post.update', $post) }}">
+    <form method="POST" action="{{ route('post.update', $post) }}" enctype="multipart/form-data">
         @method('PUT')
         @csrf
         <div class="form-group">
             <label for="inputTitolo">Titolo</label>
             <input value="{{ $post->titolo }}" name="titolo" type="text" class="form-control" id="inputTitolo">
+        </div>
+        @if($post->img)
+        <img src="{{ asset('storage/' . $post->img) }}" alt="{{ $post->titolo }}">
+        @else
+        <p> Immagine non presente </p>
+        @endif
+        <div class="form-group">
+            <label for="inputImg">Scegli un immagine</label>
+            <input type="file" class="form-control-file" id="inputImg" name="immagine">
         </div>
         <div class="form-group">
             <label for="inputContent">Descrizione</label>
