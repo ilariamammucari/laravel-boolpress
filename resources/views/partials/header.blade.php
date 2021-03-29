@@ -17,6 +17,9 @@
                     <li class="pl-2">
                         <a class="text-muted" href="{{ route('guest.posts.index') }}">Posts</a>
                     </li>
+                    <li class="pl-2">
+                        <a class="text-muted" href="{{ route('guest.contatti') }}">Contattaci</a>
+                    </li>
                     @endif
                     @if (Auth::user())
                     <li>
