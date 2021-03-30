@@ -28,6 +28,9 @@
                     <li class="pl-3">
                         <a class="text-muted" href="{{ route('post.index') }}">Post</a>
                     </li>
+                    <li class="pl-3">
+                        <a class="text-muted" href="{{ route('admin.user.profile') }}">Users</a>
+                    </li>
                     @endif
                 </ul>
 
